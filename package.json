@@ -1,0 +1,12 @@
+{
+  "name": "ghost-reviewer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An AI critic that watches your screen and interrupts once, sharply, when it spots a weak point.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

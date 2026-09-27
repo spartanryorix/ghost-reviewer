@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ghost Reviewer</title>
+  <meta name="description" content="An AI critic that watches your screen and interrupts once, sharply, when it spots a weak point.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👻</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">👻</span>
+      <div>
+        <h1>Ghost Reviewer</h1>
+        <p>Watches you build. Speaks only when something's weak.</p>
+      </div>
+    </div>
+    <div class="controls">
+      <button id="startBtn" class="btn primary">Start watching</button>
+      <button id="askBtn" class="btn" hidden title="Skip the wait and look right now">Look now</button>
+      <button id="pipBtn" class="btn" hidden title="Floating window that stays on top of your other apps">Float on top</button>
+      <button id="stopBtn" class="btn danger" hidden>Stop</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="stage" id="stage">
+      <video id="video" muted playsinline></video>
+
+      <div class="idle" id="idle">
+        <div class="idle-inner">
+          <p class="idle-lead">Share the window you're working in. Then keep working.</p>
+          <ol>
+            <li>It takes a look every <strong id="idleInterval">20</strong> seconds.</li>
+            <li>It stays silent unless it sees a real weak point.</li>
+            <li>When it does, you get one sharp question, and it won't repeat it.</li>
+          </ol>
+          <p class="idle-tip">Tip: use <em>Float on top</em> so interruptions show over your editor or slides.</p>
+        </div>
+      </div>
+
+      <div class="interrupt" id="interrupt" role="alertdialog" aria-live="assertive" aria-labelledby="interruptText" hidden>
+        <div class="interrupt-label"><span aria-hidden="true">👻</span> Ghost Reviewer interrupts</div>
+        <p class="interrupt-text" id="interruptText"></p>
+        <button id="dismissBtn" class="btn ghost">Noted. I'll fix it</button>
+      </div>
+
+      <div class="statusbar">
+        <span class="dot" id="dot" data-kind="idle"></span>
+        <span id="status">Idle</span>
+        <span class="countdown" id="countdown"></span>
+      </div>
+    </section>
+
+    <div class="lower">
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Questions asked <span class="count" id="count">0</span></h2>
+          <div class="panel-actions">
+            <button id="copyBtn" class="btn small" disabled>Copy</button>
+            <button id="clearBtn" class="btn small" disabled>Clear</button>
+          </div>
+        </div>
+        <p class="empty" id="empty">Nothing yet. Silence means it hasn't found a weak point.</p>
+        <ol class="log" id="log" reversed></ol>
+      </section>
+
+      <details class="panel settings" id="settings">
+        <summary><h2>Settings</h2></summary>
+
+        <fieldset>
+          <legend>Model access</legend>
+          <label class="radio"><input type="radio" name="mode" value="proxy" data-setting="mode"> Proxy <span class="hint">(key stays on the server, <code>/api/analyze</code>)</span></label>
+          <label class="radio"><input type="radio" name="mode" value="direct" data-setting="mode"> Direct <span class="hint">(key is in this browser. Only use this on your own laptop)</span></label>
+          <p class="server-note" id="serverNote"></p>
+        </fieldset>
+
+        <fieldset id="directFields">
+          <label>Endpoint <input type="url" data-setting="endpoint" spellcheck="false"></label>
+          <label>Model <input type="text" data-setting="model" spellcheck="false"></label>
+          <label>API key <input type="password" data-setting="apiKey" autocomplete="off" spellcheck="false" placeholder="nvapi-…"></label>
+          <label class="check"><input type="checkbox" data-setting="rememberKey"> Remember the key in this browser</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Behaviour</legend>
+          <label>Look every <input type="number" min="5" max="300" step="5" data-setting="interval" class="narrow"> seconds</label>
+          <label class="check"><input type="checkbox" data-setting="skipUnchanged"> Skip the check when the screen hasn't changed</label>
+          <label class="check"><input type="checkbox" data-setting="sound"> Chime when it interrupts</label>
+          <label class="check"><input type="checkbox" data-setting="notify"> System notification when this tab is hidden</label>
+        </fieldset>
+      </details>
+    </div>
+  </main>
+
+  <script src="shared.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
