@@ -505,6 +505,7 @@
   el.stop.addEventListener("click", () => stop());
   el.ask.addEventListener("click", () => tick(true));
   el.dismiss.addEventListener("click", dismiss);
+  el.pip.addEventListener("click", togglePip);
   document.addEventListener("keydown", onKey);
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) document.title = state.baseTitle;
@@ -519,7 +520,7 @@
     } catch {
       setStatus("Couldn't copy to the clipboard.", "error");
     }
-  });
+  });;;
 
   el.clear.addEventListener("click", () => {
     if (!confirm("Clear all asked questions? Ghost Reviewer may ask them again.")) return;

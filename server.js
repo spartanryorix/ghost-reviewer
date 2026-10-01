@@ -3,7 +3,6 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-
 const ROOT = __dirname;
 loadEnv(path.join(ROOT, ".env"));
 
